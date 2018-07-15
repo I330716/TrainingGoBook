@@ -1,0 +1,7 @@
+This line will not duplicate in this file
+This line will accurs 3 times in the same file
+This line will accurs 3 times in different files
+This line will accurs 2 times in different files
+This line will accurs 3 times in the same file
+This line will accurs 3 times in the same file
+This line will accurs 3 times in different files
