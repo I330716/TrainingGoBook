@@ -1,6 +1,9 @@
 An array is a ﬁxed-length sequence of zero or more elements of aparticular type.
+
 `var a [3]int` // array of 3 integers 
+
 `fmt.Println(a[0])` // print the first element 
+
 `fmt.Println(a[len(a)-1])` // print the last element, a[2]
 
 // Print the indices and elements. 

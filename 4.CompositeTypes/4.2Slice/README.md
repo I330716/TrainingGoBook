@@ -1,3 +1,4 @@
+#Slices
 Slices represent variable-length sequences whose elements all have the same type. A slice type
 is written []T, where the elements have type T; it looks like an array typ e without a size.
 A slice is a lightweight data structure that gives access to a subsequence (or perhaps all) 
@@ -44,10 +45,84 @@ fmt.Println(summer[:20]) // panic: out of range
 endlessSummer := summer[:5] // extend a slice (within capacity)
 fmt.Println(endlessSummer) // "[June July August September October]"
 ```
-
+####Passing slice to function 
 Since a slice contains a pointer to an element of an array, passing a slice to a function permits
 the function to modify the underlying array elements.
 See revers function.
+```
+func reverse(s []int){
+    ....
+}
+
+//this declare and init a slice. !!!The size in [] is missing!!!
+s := []int{0, 1, 2, 3, 4, 5}
+reverse(s) // "[5 4 3 2 1 0]"
+```
+####Slice literal
+A slice literal looks like an array literal, a sequence of values separated by commas and 
+surrounded by braces, but the size is not given
 
 `s := []int{0, 1, 2, 3, 4, 5}` //slice literal
 
+As with array literals, slice literals may specify the values in order, or give their indices 
+explicitly, or use a mix of the two styles
+
+####Comparing slices
+Unlike arrays, `slices are not comparable`, so we cannot use == to test whether two slices contain 
+the same elements. The standard library provides the highly optimized `bytes.Equal` function for 
+comparing two slices of bytes ([]byte), but for other types of slice, we must do the 
+comp arisonourselves:
+```
+//deep equality
+func equal(x, y []string) bool { 
+    if len(x) != len(y) { 
+        return false 
+    } 
+    for i := range x { 
+        if x[i] != y[i] { 
+            return false 
+        } 
+    } 
+    return true 
+}
+```
+Problem with deep equality
+- slice can contain itself.
+- slice can be mutated during comparison
+
+This makes slices   unsuitablefor use as map keys.
+#####Operator ==
+The `==` operator tests reference identity,that is, whether the two entities refer to the samething.
+Theonlylegal slice comp arison is against nil, as in
+
+`if summer == nil { /* ... */ }`
+
+####Default value
+The zero value of a slice type is `nil`. A nil slice has no underlying array. 
+The nil slice has length and capacity zero,
+```
+//no ynderlying array
+var s []int // len(s) == 0, cap(s) == 0, s == nil 
+s=nil // len(s) == 0, s == nil 
+s=[]int(nil) // len(s) == 0, s == nil 
+//with underlaying array
+s=[]int{} // len(s) == 0, s != nil
+ make([]int, 3)[3:] // len(s) == 0, cap(s) == 0, s != nil
+```
+
+So, if you need to test whether a slice is empty, use len(s) == 0, not s == nil
+
+>Other than comparing equal to nil, a nil slice be haves like any other zero-length slice; 
+`reverse(nil)` is perfectly safe, for example. Unless clearly documented to the contrary, 
+Go functions should treat all zero-length slices the same way, whether nil or non-nil.
+
+
+####build in function `make`
+```
+make([]T, len) 
+make([]T, len, cap) // same as make([]T, cap)[:len]
+```
+Under the hood, make creates an unnamed array variable and returns a slice of it; 
+the array is accessible only through the returned slice. In the ﬁrst form, the slice is a 
+view of the entire array. In the second, the slice is a view of only the array’s ﬁrst len elements, 
+but its capacity includes the entire array. The addition alelements are set a side for future growth.
