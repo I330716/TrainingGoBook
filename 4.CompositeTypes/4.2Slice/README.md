@@ -1,4 +1,5 @@
 #Slices
+
 Slices represent variable-length sequences whose elements all have the same type. A slice type
 is written []T, where the elements have type T; it looks like an array typ e without a size.
 A slice is a lightweight data structure that gives access to a subsequence (or perhaps all) 
@@ -46,6 +47,7 @@ endlessSummer := summer[:5] // extend a slice (within capacity)
 fmt.Println(endlessSummer) // "[June July August September October]"
 ```
 ####Passing slice to function 
+
 Since a slice contains a pointer to an element of an array, passing a slice to a function permits
 the function to modify the underlying array elements.
 See revers function.
@@ -59,6 +61,7 @@ s := []int{0, 1, 2, 3, 4, 5}
 reverse(s) // "[5 4 3 2 1 0]"
 ```
 ####Slice literal
+
 A slice literal looks like an array literal, a sequence of values separated by commas and 
 surrounded by braces, but the size is not given
 
@@ -68,6 +71,7 @@ As with array literals, slice literals may specify the values in order, or give 
 explicitly, or use a mix of the two styles
 
 ####Comparing slices
+
 Unlike arrays, `slices are not comparable`, so we cannot use == to test whether two slices contain 
 the same elements. The standard library provides the highly optimized `bytes.Equal` function for 
 comparing two slices of bytes ([]byte), but for other types of slice, we must do the 
@@ -92,12 +96,14 @@ Problem with deep equality
 
 This makes slices   unsuitablefor use as map keys.
 #####Operator ==
+
 The `==` operator tests reference identity,that is, whether the two entities refer to the samething.
 Theonlylegal slice comp arison is against nil, as in
 
 `if summer == nil { /* ... */ }`
 
 ####Default value
+
 The zero value of a slice type is `nil`. A nil slice has no underlying array. 
 The nil slice has length and capacity zero,
 ```
@@ -118,6 +124,7 @@ Go functions should treat all zero-length slices the same way, whether nil or no
 
 
 ####build in function `make`
+
 ```
 make([]T, len) 
 make([]T, len, cap) // same as make([]T, cap)[:len]
