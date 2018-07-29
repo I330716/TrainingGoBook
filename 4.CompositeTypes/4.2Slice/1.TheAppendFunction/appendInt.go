@@ -1,6 +1,8 @@
 //Function which simulate the original append one
 package main
 
+import "fmt"
+
 func appendInt(oldSlice []int, values ...int) []int {
 	var newSlice []int // makes nill slice
 	newLength := len(oldSlice) + len(values)
@@ -22,4 +24,20 @@ func appendInt(oldSlice []int, values ...int) []int {
 	}
 	copy(newSlice[len(oldSlice):], values)
 	return newSlice
+}
+
+func main() {
+	var x, y []int
+	for i := 0; i < 10; i++ {
+		y = appendInt(x, i)
+		fmt.Printf("%d cap=%d\t%v\n", i, cap(y), y)
+		x = y
+	}
+
+	var z, c []int
+	for i := 0; i < 10; i++ {
+		c = append(z, i)
+		fmt.Printf("%d cap=%d\t%v\n", i, cap(c), c)
+		z = c
+	}
 }
